@@ -1,0 +1,149 @@
+'[VARIABLES]
+'Button => [Input 2],[General Purpose IO],[LOW(?) active]
+Is=2,0,0
+'pressure sensor => [Input 1],[Soft stop],[LOW(?) active]
+Is=1,5,0
+'Liquid sensor => [Input 3],[General Purpose IO],[LOW(?) active]
+Is=3,0,1
+'Temperature sensor => [Input 5],[current mode],[4-20mA]
+Is=5,10,1
+'Recirc solenoid => [Output 3],[General purpose],[Active LOW]
+Os=3,16,0
+'Group head solenoid => [Output 2],[General purpose],[Active LOW]
+Os=2,16,0
+'Heater relay => [Output 1],[General purpose],[Active LOW]
+Os=1,16,0
+
+'initial velocity.
+Vi=1000
+'Max velocity.
+Vm=750000
+'Acceleration.
+A=125000
+'Deceleration
+D=125000
+'Running current percent.
+Rc=100
+'Holding current.
+Hc=5
+
+'READONLY VARS
+'Define floor temperature set point variable
+T1=185
+'Recirc speed
+S8=175000
+'extraction time
+T8=8000
+'extraction speed
+S9=575000
+'Define temperature stability value
+R0=1
+'Slope of temp vs signal 
+F1=0.075
+'y intercept of temp vs signal
+F2=-29.2
+'global flag that indicates if heating loop was performed successfully
+L8=0
+S
+
+'[PROGRAMS]
+'Enter program mode at address 1
+PG 1
+
+'*********MAIN PROGRAM*********
+'label re-entry point
+LB A1
+  'READ/WRITE VARS
+  'Define global stability var. Init to 10
+  F5=10
+  'Define global temperature
+  F3=0
+  'Define global temporary temperature used for stability calc
+  F4=0
+  'global flag that indicates if heating loop was performed successfully
+  L8=0
+  
+  'Call subroutine B1 to recirc and heat if button input is high and liquid detected
+  CL B0, I2=1
+  'call C1 to run extraction routine if heating loop flag set to 1 
+  CL C8, L8=1
+  'Re-enter at A1(i.e. loop)
+  BR A1
+
+LB B0
+    CL B1, I3=1
+    RT
+
+'*********SUBROUTINES**********
+'subroutine that starts heating loop
+LB B1
+  'open recirc solenoid
+  O3=1
+  'start pumping for recirculation
+  SL=S8
+  'hold to allow for total priming
+  H 15000
+  'turn heater on
+  O1=1
+  'Re-entry for checking temp and stability
+  LB B2
+    'Read analog IN multiply slope add y-intercept to get deg F
+    F3=F1*I5+F2
+    'Calculate by absolute diff of last val and current
+    F5=F3-F4
+    F5=Ab F5
+    'Store temperature in temporary var
+    F4=F3
+    'delay for 5 seconds
+    H 5000
+    'branch/loop back to B2 if less than set temp OR if temp diff is larger than acceptable
+    BR B2, F3 < T1
+    BR B2, F5 > R0
+    'set heating loop flag if made it to this line
+    L8=1
+    'return when conditions met
+    RT
+
+
+'subroutine that starts pumping to group head
+LB C8
+  'turn heater off
+  O1=0
+  'turn group head solenoid on
+  O2=1
+  'turn recirc solenoid off
+  O3=0
+  'speed up pump
+  SL=S9
+  'hold for 6 seconds
+  H T8
+  'stop pumping
+  SL=0
+  'hold for 10 seconds to allow pressure to drop
+  H 10000
+  'vent to reservoir
+  O3=1
+  'Pause to wait for drop to 0 psi
+  H 3000
+  'turn group head solenoid off
+  O2=0
+  'return to main program
+  RT
+
+
+'end and exit program 
+E
+
+'*********START UP**************
+'Start up routine
+LB SU
+  'Set outputs LOW 
+    O1=0
+    O2=0
+    O3=0
+    EX A1
+E
+PG
+
+
+
