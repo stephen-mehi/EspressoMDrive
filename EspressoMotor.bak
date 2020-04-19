@@ -28,20 +28,20 @@ Rc=100
 Hc=5
 
 'READONLY VARS
-'Define floor temperature set point variable
-T1=185
+'Define floor temperature set point variable; measured temp lags by 10 degrees
+T1=195
 'Recirc speed
 S8=175000
 'extraction time
-T8=8000
+T8=12000
 'extraction speed
-S9=550000
+S9=600000
 'Define temperature stability value
 R0=1
 'Slope of temp vs signal 
 F1=0.075
 'y intercept of temp vs signal
-F2=-29.2
+F2=-292
 'global flag that indicates if heating loop was performed successfully
 L8=0
 S
@@ -136,7 +136,7 @@ E
 
 '*********START UP**************
 'Start up routine
-LB SU
+LB Su
   'Set outputs LOW 
     O1=0
     O2=0
