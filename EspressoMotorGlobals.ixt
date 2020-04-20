@@ -1,0 +1,48 @@
+'Button => [Input 2],[General Purpose IO],[LOW(?) active]
+Is=2,0,0
+'pressure sensor => [Input 1],[Soft stop],[LOW(?) active]
+Is=1,5,0
+'Liquid sensor => [Input 3],[General Purpose IO],[LOW(?) active]
+Is=3,0,1
+'Temperature sensor => [Input 5],[current mode],[4-20mA]
+Is=5,10,1
+'Recirc solenoid => [Output 3],[General purpose],[Active LOW]
+Os=3,16,0
+'Group head solenoid => [Output 2],[General purpose],[Active LOW]
+Os=2,16,0
+'Heater relay => [Output 1],[General purpose],[Active LOW]
+Os=1,16,0
+
+'initial velocity.
+Vi=1000
+'Max velocity.
+Vm=750000
+'Acceleration.
+A=125000
+'Deceleration
+D=125000
+'Running current percent.
+Rc=100
+'Holding current.
+Hc=5
+
+'READONLY VARS
+'Define temperature set point variable; measured temp lags by x degrees
+T1=195
+'Recirc speed
+S8=175000
+'extraction time
+T8=10500
+'extraction speed
+S9=600000
+'Define temperature stability value
+R0=2
+'Define temperature set point tolerance
+R9=1
+'Slope of temp vs signal 
+F1=0075
+'y intercept of temp vs signal
+F2=-292
+'global flag that indicates if heating loop was performed successfully
+L8=0
+S
