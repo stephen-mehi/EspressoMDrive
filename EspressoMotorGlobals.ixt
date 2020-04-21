@@ -1,3 +1,4 @@
+'[VARIABLES]
 'Button => [Input 2],[General Purpose IO],[LOW(?) active]
 Is=2,0,0
 'pressure sensor => [Input 1],[Soft stop],[LOW(?) active]
@@ -46,3 +47,6 @@ F2=-292
 'global flag that indicates if heating loop was performed successfully
 L8=0
 S
+
+'[PROGRAMS]
+'none
