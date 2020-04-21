@@ -66,6 +66,8 @@ LB B1
 
 'subroutine that starts pumping to group head
 LB C8
+  'delay to allow group head to get up to temp
+  H T9
   'turn heater off
   O1=0
   'turn group head solenoid on
@@ -95,7 +97,7 @@ E
 
 '*********START UP**************
 'Start up routine
-LB Su
+LB SU
   'Set outputs LOW 
     O1=0
     O2=0

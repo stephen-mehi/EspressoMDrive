@@ -14,6 +14,8 @@ Os=2,16,0
 'Heater relay => [Output 1],[General purpose],[Active LOW]
 Os=1,16,0
 
+'USE VA COMMAND TO SET VARIABLES FOR FIRST TIME
+
 'initial velocity.
 Vi=1000
 'Max velocity.
@@ -32,8 +34,10 @@ Hc=5
 T1=195
 'Recirc speed
 S8=175000
+'Time waited once setpoint reached so grouphead can get up to temp
+T9=30000
 'extraction time
-T8=10500
+T8=10750
 'extraction speed
 S9=600000
 'Define temperature stability value
