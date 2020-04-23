@@ -29,7 +29,11 @@ Rc=100
 'Holding current.
 Hc=5
 
-'READONLY VARS
+'USER DEFINED VARS
+'Flag indicating whether or not backflush routine
+Bf=0
+'Variable used to accumulate time button is held
+Bh=0
 'Define temperature set point variable; measured temp lags by x degrees
 T1=195
 'Recirc speed

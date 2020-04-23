@@ -8,30 +8,78 @@ PG 1
 '*********MAIN PROGRAM*********
 'label re-entry point
 LB A1
-  'READ/WRITE VARS
-  'Define global stability var. Init to 10
-  F5=10
-  'Define global temperature
-  F3=0
-  'Define global temporary temperature used for stability calc
-  F4=0
-  'global flag that indicates if heating loop was performed successfully
-  L8=0
+	'READ/WRITE VARS
+	'set slew velocity to 0 just in case
+	SL=0
+	'Define global stability var. Init to 10
+	F5=10
+	'Define global temperature
+	F3=0
+	'Define global temporary temperature used for stability calc
+	F4=0
+	'global flag that indicates if heating loop was performed successfully
+	L8=0
+	'initialize button held duration to 0
+	Bh=0
+	'initialize backflush flag to 0
+	Bf=0
   
-  'Call subroutine B1 to recirc and heat if button input is high and liquid detected
-  CL B0, I2=1
-  'call C1 to run extraction routine if heating loop flag set to 1 
-  CL C8, L8=1
-  'Re-enter at A1(i.e. loop)
-  BR A1
-
-LB B0
-    CL B1, I3=1
-    RT
+	'Call subroutine B0 to recirc and heat if liquid sensed and button pressed
+	CL B0, I2=1
+	'call C1 to run extraction routine if heating loop flag set to 1 
+	CL C8, L8=1
+	'Re-enter at A1(i.e. loop)
+	BR A1
 
 '*********SUBROUTINES**********
-'subroutine that starts heating loop
+LB B0
+	'call B1 to check if backflush routine
+	CL B1
+	'call B3 if liquid present(not implemented)
+    CL B4, I3=1
+    RT
+	
+'subroutine loop to check for backflush routine
 LB B1
+	'pause for 50 ms
+	H 50
+	'increment button held accumulator 
+	Bh = Bh+50
+	'Call B2 if held for more than 2 seconds
+	CL B2, Bh > 2000
+	'Loop if button is still pressed
+	BR B1, I2=1
+	RT
+
+'subroutine to set backflush routine flag and run backflush
+LB B2
+	'set backflush flag high
+	Bf=1
+	'close recirc valve
+	O3=0
+	'ensure group head valve closed, i.e. backflush vent open
+	O2=0
+	'start running pump at recirc speed
+	SL=S8
+	'loop if still pressing button
+	BR B2, I2=1
+	'call B3 if not pressing button
+	CL B3, I2=0
+	RT
+
+'subroutine to stop motor
+LB B3
+	'Set slew velocity to 0
+	SL=0
+	RT
+
+LB B4
+	'Call heating loop if not backflush
+	CL B5, Bf=0
+	RT
+	
+'subroutine that starts heating loop
+LB B5
   'open recirc solenoid
   O3=1
   'start pumping for recirculation
