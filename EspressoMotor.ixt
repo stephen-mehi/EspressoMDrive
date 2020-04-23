@@ -19,10 +19,12 @@ LB A1
 	F4=0
 	'global flag that indicates if heating loop was performed successfully
 	L8=0
-	'initialize button held duration to 0
+	'initialize button held time accumulator to 0
 	Bh=0
 	'initialize backflush flag to 0
 	Bf=0
+	'initialize backflush flip flop time accumulator to 0
+	Ff=0
   
 	'Call subroutine B0 to recirc and heat if liquid sensed and button pressed
 	CL B0, I2=1
@@ -35,8 +37,8 @@ LB A1
 LB B0
 	'call B1 to check if backflush routine
 	CL B1
-	'call B3 if liquid present(not implemented)
-    CL B4, I3=1
+	'call B6 if liquid present(liquid sensing not yet implemented)
+    CL B6, I3=1
     RT
 	
 'subroutine loop to check for backflush routine
@@ -57,29 +59,51 @@ LB B2
 	Bf=1
 	'close recirc valve
 	O3=0
-	'ensure group head valve closed, i.e. backflush vent open
-	O2=0
+	'open group head valve, i.e. backflush vent closed
+	O2=1
 	'start running pump at recirc speed
 	SL=S8
+	'Increment accumulator variable 50 ms which determines how long to build up pressure
+	Ff=Ff+50
+	'Pause for 50ms
+	H 50
+	'Call B3 if pressurized, i.e. pressurized for 2 seconds
+	CL B3, Ff > 2000 
 	'loop if still pressing button
 	BR B2, I2=1
-	'call B3 if not pressing button
-	CL B3, I2=0
+	'call B4 once reached this line
+	CL B4
 	RT
 
-'subroutine to stop motor
+'subroutine to flip flop group solenoid
 LB B3
+	'stop motor
+	SL=0
+	'wait some for it to stop
+	H 1000
+	'close group solenoid, i.e. open grouphead backflush vent 
+	O2=0
+	'hold for total pressure venting
+	H 1000
+	'reset flip flop accumulator
+	Ff=0
+	RT
+
+'subroutine to stop backflush routine
+LB B4
+	'Close group solenoid
+	O2=0
 	'Set slew velocity to 0
 	SL=0
 	RT
 
-LB B4
+LB B6
 	'Call heating loop if not backflush
-	CL B5, Bf=0
+	CL B7, Bf=0
 	RT
 	
 'subroutine that starts heating loop
-LB B5
+LB B7
   'open recirc solenoid
   O3=1
   'start pumping for recirculation

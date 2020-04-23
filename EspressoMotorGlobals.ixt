@@ -30,6 +30,8 @@ Rc=100
 Hc=5
 
 'USER DEFINED VARS
+'variable used to accumulate time between flip flopping the group three way valve during backflushing
+Ff=0
 'Flag indicating whether or not backflush routine
 Bf=0
 'Variable used to accumulate time button is held
