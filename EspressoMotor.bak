@@ -16,18 +16,15 @@ PG 1
   F3=0
   'Define global temporary temperature used for stability calc
   F4=0
-  'global flag that indicates if heating loop was performed successfully
-  L8=0
   'initialize button held time accumulator to 0
   BH=0
   'initialize backflush flag to 0
   BF=0
   'initialize backflush flip flop time accumulator to 0
-  FF=0  
+  FF=0 
+   
   'Call subroutine B0 to recirc and heat if liquid sensed and button pressed
   CL B0, I2=1
-  'call C1 to run extraction routine if heating loop flag set to 1 
-  CL C8, L8=1
   'Re-enter at A1(i.e. loop)
   BR A1
 
@@ -65,15 +62,15 @@ LB B2
   FF=FF+50
   'Pause for 50ms
   H 50
-  'Call B3 if pressurized, i.e. pressurized for 2 seconds
-  CL B3, FF > 2000 
+  'Call B3 if pressurized, i.e. pressurized for variable seconds
+  CL B3, FF > L8
   'loop if still pressing button
   BR B2, I2=1
   'call B4 once reached this line
-  CL B4
+  CL B3
 RT
 
-'subroutine to flip flop group solenoid
+'subroutine to vent group solenoid
 LB B3
   'stop motor
   SL=0
@@ -85,14 +82,6 @@ LB B3
   H 1000
   'reset flip flop accumulator
   FF=0
-RT
-
-'subroutine to stop backflush routine
-LB B4
-  'Close group solenoid
-  O2=0
-  'Set slew velocity to 0
-  SL=0
 RT
 
 LB B6
@@ -128,38 +117,38 @@ LB B7
     'OR if temp diff is larger than acceptable
     BR B8, F6 > R9
     BR B8, F5 > R0
-    'set heating loop flag if made it to this line
-    L8=1
-    'return when conditions met
+
+   
+    'EXTRACTION ROUTINE
+    'delay to allow group head to get up to temp
+    H T9
+    'turn heater off
+    O1=0
+    'turn group head solenoid on
+    O2=1
+    'turn recirc solenoid off
+    O3=0
+    'speed up pump
+    SL=S9
+    'hold for 6 seconds
+    H T8
+    'stop pumping
+    SL=0
+    'hold for 10 seconds to allow pressure to drop
+    H 10000
+    'vent to reservoir
+    O3=1
+    'Pause to wait for drop to 0 psi
+    H 3000
+    'turn group head solenoid off
+    O2=0
 RT
 
 
 'subroutine that starts pumping to group head
 LB C8
-  'delay to allow group head to get up to temp
-  H T9
-  'turn heater off
-  O1=0
-  'turn group head solenoid on
-  O2=1
-  'turn recirc solenoid off
-  O3=0
-  'speed up pump
-  SL=S9
-  'hold for 6 seconds
-  H T8
-  'stop pumping
-  SL=0
-  'hold for 10 seconds to allow pressure to drop
-  H 10000
-  'vent to reservoir
-  O3=1
-  'Pause to wait for drop to 0 psi
-  H 3000
-  'turn group head solenoid off
-  O2=0
-  'return to main program
-  RT
+
+RT
 
 
 'end and exit program 

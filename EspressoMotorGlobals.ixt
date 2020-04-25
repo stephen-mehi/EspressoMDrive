@@ -15,7 +15,8 @@ Os=2,16,0
 Os=1,16,0
 
 'USE VA COMMAND TO SET VARIABLES FOR FIRST TIME
-
+'variable representing duration of pressure build up during backflush
+L8=4000
 'initial velocity.
 Vi=1000
 'Max velocity.
@@ -54,8 +55,6 @@ R9=1
 F1=0075
 'y intercept of temp vs signal
 F2=-292
-'global flag that indicates if heating loop was performed successfully
-L8=0
 S
 
 '[PROGRAMS]
