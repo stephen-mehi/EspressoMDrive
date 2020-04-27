@@ -130,7 +130,7 @@ LB B7
     O3=0
     'speed up pump
     SL=S9
-    'hold for 6 seconds
+    'hold for x seconds
     H T8
     'stop pumping
     SL=0
