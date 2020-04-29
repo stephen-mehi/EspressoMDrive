@@ -122,15 +122,22 @@ LB B7
     'EXTRACTION ROUTINE
     'delay to allow group head to get up to temp
     H T9
-    'turn heater off
-    O1=0
     'turn group head solenoid on
     O2=1
+    'pause for pre-infusion
+    H T7
+    'turn group head solenoid off to allow soak
+    O2=0
+    'Hold for soak 
+    H T6
+    'now ready to extract
+    'turn heater off
+    O1=0
     'turn recirc solenoid off
     O3=0
     'speed up pump
     SL=S9
-    'hold for 6 seconds
+    'hold for x seconds for extraction
     H T8
     'stop pumping
     SL=0
