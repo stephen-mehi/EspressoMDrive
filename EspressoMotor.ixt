@@ -75,7 +75,7 @@ LB B3
   'stop motor
   SL=0
   'wait some for it to stop
-  H 1000
+  H 250
   'close group solenoid, i.e. open grouphead backflush vent 
   O2=0
   'hold for total pressure venting
@@ -130,6 +130,8 @@ LB B7
     O2=0
     'Hold for soak 
     H T6
+    'open group again
+    O2=1
     'now ready to extract
     'turn heater off
     O1=0
