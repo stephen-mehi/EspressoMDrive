@@ -14,9 +14,6 @@ Os=2,16,0
 'Heater relay => [Output 1],[General purpose],[Active LOW]
 Os=1,16,0
 
-'USE VA COMMAND TO SET VARIABLES FOR FIRST TIME
-'variable representing duration of pressure build up during backflush
-L8=4000
 'initial velocity.
 Vi=1000
 'Max velocity.
@@ -30,7 +27,10 @@ Rc=100
 'Holding current.
 Hc=5
 
+'USE VA COMMAND TO SET VARIABLES FOR FIRST TIME
 'USER DEFINED VARS
+'variable representing duration of pressure build up during backflush
+L8=4000
 'variable used to accumulate time between flip flopping the group three way valve during backflushing
 Ff=0
 'Flag indicating whether or not backflush routine
@@ -43,13 +43,13 @@ T1=195
 S8=175000
 'Time waited once setpoint reached so grouphead can get up to temp, 
 'add this to pre-infusion wait times to get total time grouphead allowed to get to temp after setpoint reached
-T9=20000
+T9=40000
 'extraction time
-T8=10750
+T8=15000
 'pre-infusion time
 T7=8000
 'pre-infusion soak time
-T6=30000
+T6=10000
 'extraction speed
 S9=600000
 'Define temperature stability value

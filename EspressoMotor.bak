@@ -75,7 +75,7 @@ LB B3
   'stop motor
   SL=0
   'wait some for it to stop
-  H 250
+  H 500
   'close group solenoid, i.e. open grouphead backflush vent 
   O2=0
   'hold for total pressure venting
