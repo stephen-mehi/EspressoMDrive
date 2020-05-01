@@ -47,7 +47,7 @@ T9=45000
 'extraction time
 T8=18000
 'pre-infusion time
-T7=10000
+T7=12000
 'pre-infusion soak time
 T6=5000
 'extraction speed
