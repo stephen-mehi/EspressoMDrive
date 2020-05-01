@@ -43,13 +43,13 @@ T1=195
 S8=175000
 'Time waited once setpoint reached so grouphead can get up to temp, 
 'add this to pre-infusion wait times to get total time grouphead allowed to get to temp after setpoint reached
-T9=40000
+T9=45000
 'extraction time
-T8=15000
+T8=18000
 'pre-infusion time
-T7=8000
+T7=10000
 'pre-infusion soak time
-T6=10000
+T6=5000
 'extraction speed
 S9=600000
 'Define temperature stability value
