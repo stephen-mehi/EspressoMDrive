@@ -41,11 +41,13 @@ Bh=0
 T1=195
 'Recirc speed
 S8=175000
+'backflush speed
+S7=250000
 'Time waited once setpoint reached so grouphead can get up to temp, 
 'add this to pre-infusion wait times to get total time grouphead allowed to get to temp after setpoint reached
 T9=45000
 'extraction time
-T8=18000
+T8=16500
 'pre-infusion time
 T7=12000
 'pre-infusion soak time
@@ -57,7 +59,7 @@ R0=2
 'Define temperature set point tolerance
 R9=1
 'Slope of temp vs signal 
-F1=0075
+F1=0.075
 'y intercept of temp vs signal
 F2=-292
 S

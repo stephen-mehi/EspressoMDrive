@@ -56,8 +56,8 @@ LB B2
   O3=0
   'open group head valve, i.e. backflush vent closed
   O2=1
-  'start running pump at recirc speed
-  SL=S8
+  'start running pump at backflush speed
+  SL=S7
   'Increment accumulator variable 50 ms which determines how long to build up pressure
   FF=FF+50
   'Pause for 50ms
@@ -75,7 +75,7 @@ LB B3
   'stop motor
   SL=0
   'wait some for it to stop
-  H 500
+  H 750
   'close group solenoid, i.e. open grouphead backflush vent 
   O2=0
   'hold for total pressure venting
