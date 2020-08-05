@@ -47,7 +47,7 @@ S7=250000
 'add this to pre-infusion wait times to get total time grouphead allowed to get to temp after setpoint reached
 T9=45000
 'extraction time
-T8=16500
+T8=24000
 'pre-infusion time
 T7=12000
 'pre-infusion soak time
