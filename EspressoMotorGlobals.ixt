@@ -38,7 +38,7 @@ Bf=0
 'Variable used to accumulate time button is held
 Bh=0
 'Define temperature set point variable; measured temp lags by x degrees
-T1=195
+T1=191
 'Recirc speed
 S8=175000
 'backflush speed
