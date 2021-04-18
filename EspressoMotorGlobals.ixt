@@ -40,7 +40,7 @@ Bh=0
 'Define temperature set point variable; measured temp lags by x degrees
 T1=191
 'Recirc speed
-S8=175000
+S8=250000
 'backflush speed
 S7=250000
 'Time waited once setpoint reached so grouphead can get up to temp, 
