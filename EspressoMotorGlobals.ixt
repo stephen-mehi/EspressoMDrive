@@ -49,13 +49,13 @@ T9=45000
 'extraction time
 T8=24000
 'pre-infusion time
-T7=12000
+T7=18000
 'pre-infusion soak time
 T6=5000
 'extraction speed
-S9=600000
+S9=300000
 'Define temperature stability value
-R0=2
+R0=1
 'Define temperature set point tolerance
 R9=1
 'Slope of temp vs signal 
