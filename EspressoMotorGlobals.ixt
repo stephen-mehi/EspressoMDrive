@@ -38,26 +38,26 @@ Bf=0
 'Variable used to accumulate time button is held
 Bh=0
 'Define temperature set point variable; measured temp lags by x degrees
-T1=191
+T1=185
 'Recirc speed
 S8=400000
 'backflush speed
 S7=250000
 'Time waited once setpoint reached so grouphead can get up to temp, 
 'add this to pre-infusion wait times to get total time grouphead allowed to get to temp after setpoint reached
-T9=45000
+T9=30000
 'extraction time
-T8=24000
+T8=25000
 'pre-infusion time
-T7=18000
+T7=30000
 'pre-infusion soak time
 T6=5000
 'extraction speed
-S9=300000
+S9=325000
 'Define temperature stability value
-R0=1
+R0=2
 'Define temperature set point tolerance
-R9=1
+R9=2
 'Slope of temp vs signal 
 F1=0.075
 'y intercept of temp vs signal
