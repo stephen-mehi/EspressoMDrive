@@ -1,10 +1,10 @@
 '[VARIABLES]
 'Button => [Input 2],[General Purpose IO],[LOW(?) active]
 Is=2,0,0
-'pressure sensor => [Input 1],[Soft stop],[LOW(?) active]
-Is=1,5,0
-'Liquid sensor => [Input 3],[General Purpose IO],[LOW(?) active]
-Is=3,0,1
+'over pressure => [Input 1],[GPIO],[LOW(?) active]
+Is=1,0,0
+'liquid sensor sensor => [Input 3],[Soft stop],[HIGH(?) active]
+Is=3,5,1
 'Temperature sensor => [Input 5],[current mode],[4-20mA]
 Is=5,10,1
 'Recirc solenoid => [Output 3],[General purpose],[Active LOW]
@@ -45,7 +45,7 @@ S8=400000
 S7=250000
 'Time waited once setpoint reached so grouphead can get up to temp, 
 'add this to pre-infusion wait times to get total time grouphead allowed to get to temp after setpoint reached
-T9=30000
+T9=60000
 'extraction time
 T8=25000
 'pre-infusion time
