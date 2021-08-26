@@ -23,17 +23,21 @@ PG 1
   'initialize backflush flip flop time accumulator to 0
   FF=0 
    
-  'Call subroutine B0 to recirc and heat if liquid sensed and button pressed
+  'Call subroutine B0 to recirc and heat if button pressed
   CL B0, I2=1
   'Re-enter at A1(i.e. loop)
   BR A1
 
 '*********SUBROUTINES**********
 LB B0  
+  'set liquid sensor input as soft stop
+  IS=3,5,1
   'call B1 to check if backflush routine
   CL B1
-  'call B6 if liquid present(liquid sensing not yet implemented)
-  CL B6, I3=1
+  'call standard extraction routine
+  CL B6
+  'set liquid sensor input back to GPIO
+  IS=3,0,1
 RT
 
 'subroutine loop to check for backflush routine
@@ -100,23 +104,11 @@ LB B7
   'turn heater on
   O1=1
   'Re-entry for checking temp and stability
-  LB B8
-    'Read analog IN multiply slope add y-intercept to get deg F
-    F3=F1*I5+F2
-    'Calculate by absolute diff of last val and current
-    F5=F3-F4
-    F5=Ab F5
-    'Store temperature in temporary var
-    F4=F3
-    'Calculate absolute diff of current temp and set point temp
-    F6=T1-F3
-    F6=Ab F6    
+  LB B8   
     'delay for 5 seconds
-    H 5000
-    'branch/loop back to B2 if temp diff is greater than set point tolerance 
-    'OR if temp diff is larger than acceptable
-    BR B8, F6 > R9
-    BR B8, F5 > R0
+    H 2500
+    'branch/loop back to B8 if temp switch is not active
+    BR B8, I1=0
 
    
     'EXTRACTION ROUTINE
@@ -154,12 +146,6 @@ LB B7
 RT
 
 
-'subroutine that starts pumping to group head
-LB C8
-
-RT
-
-
 'end and exit program 
 E
 
@@ -167,6 +153,7 @@ E
 'Start up routine
 LB SU
   'Set outputs LOW 
+	ER=0
     O1=0
     O2=0
     O3=0

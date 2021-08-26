@@ -3,8 +3,8 @@
 Is=2,0,0
 'over pressure => [Input 1],[GPIO],[LOW(?) active]
 Is=1,0,0
-'liquid sensor sensor => [Input 3],[Soft stop],[HIGH(?) active]
-Is=3,5,1
+'liquid sensor sensor => [Input 3],[GPIO runtime set as Soft stop],[HIGH(?) active]
+Is=3,0,1
 'Temperature sensor => [Input 5],[current mode],[4-20mA]
 Is=5,10,1
 'Recirc solenoid => [Output 3],[General purpose],[Active LOW]
