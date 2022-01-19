@@ -40,18 +40,22 @@ Bh=0
 'Define temperature set point variable; measured temp lags by x degrees
 T1=185
 'Recirc speed
-S8=400000
+S8=20000
 'backflush speed
 S7=250000
 'Time waited once setpoint reached so grouphead can get up to temp, 
 'add this to pre-infusion wait times to get total time grouphead allowed to get to temp after setpoint reached
-T9=60000
+T9=65000
+'The max value for the hold command is 65000, so a looping delay is used fot T9
+'Where a one second delay occurs every loop
+'CT variable holds the current loop count which is compared to T9 to see if delay is complete
+CT=0
 'extraction time
-T8=25000
+T8=20000
 'pre-infusion time
-T7=30000
+T7=40000
 'pre-infusion soak time
-T6=5000
+T6=65000
 'extraction speed
 S9=325000
 'Define temperature stability value
