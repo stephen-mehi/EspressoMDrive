@@ -1,83 +1,72 @@
-'[VARIABLES]
-'none
-
-'[PROGRAMS]
 'Enter program mode at address 1
 PG 1
- '*********MAIN PROGRAM*********
-  'label re-entry point
-  LB A1
+'*********MAIN PROGRAM*********
+'label re-entry point
+LB G1
   'READ/WRITE VARS
   'set slew velocity to 0 just in case
   SL=0
-  'Define global stability var. Init to 10
-  F5=10
-  'Define global temperature
-  F3=0
-  'Define global temporary temperature used for stability calc
-  F4=0
   'initialize button held time accumulator to 0
-  BH=0
+  Q4=0
   'initialize backflush flag to 0
-  BF=0
+  Q3=0
   'initialize backflush flip flop time accumulator to 0
-  FF=0 
+  Q2=0 
   'Initialize delay loop counter to 0
-  CT=0
-   
-  'Call subroutine B0 to recirc and heat if button pressed
-  CL B0, I2=1
-  'Re-enter at A1(i.e. loop)
-  BR A1
+  Q8=0
+  'Call subroutine K0 to recirc and heat if button pressed
+  CL K0, I2=1
+  'Re-enter at G1(i.e. loop)
+  BR G1
 
 '*********SUBROUTINES**********
-LB B0  
+LB K0
   'set liquid sensor input as soft stop
   IS=3,5,1
-  'call B1 to check if backflush routine
-  CL B1
+  'call K1 to check if backflush routine
+  CL K1
   'call standard extraction routine
-  CL B6
+  CL K4
   'set liquid sensor input back to GPIO
   IS=3,0,1
 RT
 
 'subroutine loop to check for backflush routine
-LB B1
+LB K1
   'pause for 50 ms
   H 50
   'increment button held accumulator 
-  BH = BH+50
-  'Call B2 if held for more than 2 seconds
-  CL B2, BH > 2000
+  Q4 = Q4+50
+  'Call K2 if held for more than 2 seconds
+  CL K2, Q4 > 2000
   'Loop if button is still pressed
-  BR B1, I2=1
+  BR K1, I2=1
 RT
 
 'subroutine to set backflush routine flag and run backflush
-LB B2
+LB K2
   'set backflush flag high
-  BF=1
+  Q3=1
   'close recirc valve
   O3=0
   'open group head valve, i.e. backflush vent closed
   O2=1
   'start running pump at backflush speed
-  SL=S7
+  SL=Q6
   'Increment accumulator variable 50 ms which determines how long to build up pressure
-  FF=FF+50
+  Q2=Q2+50
   'Pause for 50ms
   H 50
-  'Call B3 if pressurized, i.e. pressurized for variable seconds
-  CL B3, FF > L8
+  'Call K3 if pressurized, i.e. pressurized for variable seconds
+  CL K3, Q2 > Q1
   'loop if still pressing button
-  BR B2, I2=1
+  BR K2, I2=1
   'call B4 once reached this line
-  CL B3
+  CL K3
 RT
 
 'subroutine to vent group solenoid
-LB B3
+LB K3
   'stop motor
   SL=0
   'wait some for it to stop
@@ -87,50 +76,50 @@ LB B3
   'hold for total pressure venting
   H 1000
   'reset flip flop accumulator
-  FF=0
+  Q2=0
 RT
 
-LB B6
+LB K4
   'Call heating loop if not backflush
-  CL B7, BF=0
+  CL K5, Q3=0
 RT
 
 'subroutine that starts heating loop
-LB B7 
+LB K5
   'open recirc solenoid
   O3=1
   'start pumping for recirculation
-  SL=S8
+  SL=Q5
   'hold to allow for total priming
   H 15000
   'turn heater on
   O1=1
   'Re-entry for checking temp and stability
-  LB B8   
+  LB K6
     'delay
     H 250
-    'branch/loop back to B8 if temp switch is not active
-    BR B8, I1=0
+    'branch/loop back to K6 if temp switch is not active
+    BR K6, I1=0
 
 	'reentry point for delaying
-    LB B9
+    LB K7
 	  H 1000
 	  'increment loop count
-	  CT = CT + 1000
-	  'branch back to B9 if need to keep delaying
-	  BR B9, T9 > CT
-	  
+	  Q8 = Q8 + 1000
+	  'branch back to K7 if need to keep delaying
+	  BR K7, Q7 > Q8
+	
     'EXTRACTION ROUTINE
     'delay to allow group head to get up to temp
-    H T9
+    H Q7
     'turn group head solenoid on
     O2=1
     'pause for pre-infusion
-    H T7
+    H Q10
     'turn group head solenoid off to allow soak
     O2=0
     'Hold for soak 
-    H T6
+    H Q11
     'open group again
     O2=1
     'now ready to extract
@@ -139,9 +128,9 @@ LB B7
     'turn recirc solenoid off
     O3=0
     'speed up pump
-    SL=S9
+    SL=Q12
     'hold for x seconds for extraction
-    H T8
+    H Q9
     'stop pumping
     SL=0
     'hold for 10 seconds to allow pressure to drop
@@ -154,21 +143,24 @@ LB B7
     O2=0
 RT
 
-
-'end and exit program 
-E
+LB K8
+  'STOP MOTION
+  SL=0
+  'TURN OFF HEATER
+  O1=0
+  BR K8
+RT
 
 '*********START UP**************
 'Start up routine
 LB SU
+  H 500
   'Set outputs LOW 
-	ER=0
-    O1=0
-    O2=0
-    O3=0
-    EX A1
-E
+  O1=0
+  O2=0
+  O3=0
+  TI 3,K8
+  TE=1
+  EX G1
+
 PG
-
-
-

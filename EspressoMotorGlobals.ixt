@@ -1,4 +1,3 @@
-'[VARIABLES]
 'Button => [Input 2],[General Purpose IO],[LOW(?) active]
 Is=2,0,0
 'over pressure => [Input 1],[GPIO],[LOW(?) active]
@@ -30,43 +29,30 @@ Hc=5
 'USE VA COMMAND TO SET VARIABLES FOR FIRST TIME
 'USER DEFINED VARS
 'variable representing duration of pressure build up during backflush
-L8=4000
+VA Q1=4000
 'variable used to accumulate time between flip flopping the group three way valve during backflushing
-Ff=0
+VA Q2=0
 'Flag indicating whether or not backflush routine
-Bf=0
+VA Q3=0
 'Variable used to accumulate time button is held
-Bh=0
-'Define temperature set point variable; measured temp lags by x degrees
-T1=185
+VA Q4=0
 'Recirc speed
-S8=20000
+VA Q5=200000
 'backflush speed
-S7=250000
+VA Q6=250000
 'Time waited once setpoint reached so grouphead can get up to temp, 
 'add this to pre-infusion wait times to get total time grouphead allowed to get to temp after setpoint reached
-T9=65000
-'The max value for the hold command is 65000, so a looping delay is used fot T9
+VA Q7=120000
+'The max value for the hold command is 65000, so a looping delay is used for Q7
 'Where a one second delay occurs every loop
-'CT variable holds the current loop count which is compared to T9 to see if delay is complete
-CT=0
+'Q8 variable holds the current loop count which is compared to Q7 to see if delay is complete
+VA Q8=0
 'extraction time
-T8=20000
+VA Q9=20000
 'pre-infusion time
-T7=40000
+VA Q10=40000
 'pre-infusion soak time
-T6=65000
+VA Q11=40000
 'extraction speed
-S9=325000
-'Define temperature stability value
-R0=2
-'Define temperature set point tolerance
-R9=2
-'Slope of temp vs signal 
-F1=0.075
-'y intercept of temp vs signal
-F2=-292
-S
-
-'[PROGRAMS]
-'none
+VA Q12=325000
+s
