@@ -48,11 +48,11 @@ VA Q7=120000
 'Q8 variable holds the current loop count which is compared to Q7 to see if delay is complete
 VA Q8=0
 'extraction time
-VA Q9=20000
+VA Q9=27000
 'pre-infusion time
-VA Q10=40000
+VA Q10=25000
 'pre-infusion soak time
-VA Q11=40000
+VA Q11=35000
 'extraction speed
 VA Q12=325000
 s
