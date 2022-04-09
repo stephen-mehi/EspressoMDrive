@@ -2,7 +2,7 @@
 Is=2,0,0
 'over pressure => [Input 1],[GPIO],[LOW(?) active]
 Is=1,0,0
-'liquid sensor sensor => [Input 3],[GPIO runtime set as Soft stop],[HIGH(?) active]
+'liquid sensor sensor => [Input 3],[GPIO],[HIGH(?) active]
 Is=3,0,1
 'Temperature sensor => [Input 5],[current mode],[4-20mA]
 Is=5,10,1
@@ -48,7 +48,7 @@ VA Q7=120000
 'Q8 variable holds the current loop count which is compared to Q7 to see if delay is complete
 VA Q8=0
 'extraction time
-VA Q9=27000
+VA Q9=23500
 'pre-infusion time
 VA Q10=25000
 'pre-infusion soak time

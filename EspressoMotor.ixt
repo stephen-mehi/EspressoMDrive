@@ -21,14 +21,10 @@ LB G1
 
 '*********SUBROUTINES**********
 LB K0
-  'set liquid sensor input as soft stop
-  IS=3,5,1
   'call K1 to check if backflush routine
   CL K1
   'call standard extraction routine
   CL K4
-  'set liquid sensor input back to GPIO
-  IS=3,0,1
 RT
 
 'subroutine loop to check for backflush routine
@@ -110,8 +106,7 @@ LB K5
 	  BR K7, Q7 > Q8
 	
     'EXTRACTION ROUTINE
-    'delay to allow group head to get up to temp
-    H Q7
+
     'turn group head solenoid on
     O2=1
     'pause for pre-infusion
@@ -143,14 +138,6 @@ LB K5
     O2=0
 RT
 
-LB K8
-  'STOP MOTION
-  SL=0
-  'TURN OFF HEATER
-  O1=0
-  BR K8
-RT
-
 '*********START UP**************
 'Start up routine
 LB SU
@@ -159,8 +146,6 @@ LB SU
   O1=0
   O2=0
   O3=0
-  TI 3,K8
-  TE=1
+  IS=3,5,1
   EX G1
-
 PG
